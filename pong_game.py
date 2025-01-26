@@ -70,6 +70,7 @@ quit_button = pygame.Rect(screen_width/2 - 100, screen_height/2 + 120, 200, 50)
 #colors
 bg_color = pygame.Color('grey12')
 light_grey = (200,200,200)
+accent_color = (100, 150, 250)
 green = (0,128, 0)
 
 #speed variables
@@ -85,7 +86,7 @@ MAX_SCORE = 2
 game_over = False
 waiting = True
 
-font = pygame.font.Font(None, 36)
+font = pygame.font.Font(None, 42)
 
 #countdown variable
 countdown_duration = 3
@@ -116,7 +117,7 @@ while True:
      if remaining_time > 0:
          #countdown screen
          screen.fill(bg_color)
-         countdown_text = countdown_font.render(str(remaining_time), True, light_grey) 
+         countdown_text = countdown_font.render(str(remaining_time), True, (255,0,0)) 
          countdown_rect = countdown_text.get_rect(center=(screen_width/2,screen_height/2))          
          screen.blit(countdown_text, countdown_rect)
          pygame.display.flip()
@@ -131,7 +132,8 @@ while True:
         screen.fill(bg_color)
         pygame.draw.rect(screen, light_grey, player)
         pygame.draw.rect(screen, light_grey, opponent)
-        pygame.draw.ellipse(screen, light_grey, ball)
+        pygame.draw.ellipse(screen, (200, 200,255), ball)
+        pygame.draw.ellipse(screen, accent_color, ball, width=2)
         pygame.draw.aaline(screen, light_grey, (screen_width/2,0), (screen_width/2,screen_height))
      
         score_text = font.render('Score', True, light_grey)
@@ -154,8 +156,10 @@ while True:
         screen.blit(winner_text, winner_rect)
         
         #Draw buttons
-        pygame.draw.rect(screen, light_grey, replay_button)
-        pygame.draw.rect(screen, light_grey, quit_button)
+        pygame.draw.rect(screen, accent_color, replay_button, border_radius=10)
+        pygame.draw.rect(screen, (50, 50, 100), replay_button, border_radius=10, width=2) 
+
+        pygame.draw.rect(screen, light_grey, quit_button, border_radius=10)
         
         #Button text
         replay_text = font.render('Replay', True, bg_color)
