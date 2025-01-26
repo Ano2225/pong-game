@@ -32,10 +32,18 @@ def opponent_ai():
          opponent.bottom = screen_height 
 
 def ball_restart():
-    global ball_speed_x, ball_speed_y
+    global ball_speed_x, ball_speed_y, player_score, opponent_score
+    
+    #Determine who scored 
+    if ball.left <= 0:
+        player_score += 1
+    elif ball.right >= screen_width:
+        opponent_score += 1
+    
     ball.center = (screen_width/2, screen_height/2)
     ball_speed_y *= random.choice((1, -1))
     ball_speed_x *= random.choice((1, -1))
+ 
              
 #General setup
 pygame.init()
@@ -62,6 +70,12 @@ ball_speed_x = 7
 player_speed = 0
 opponent_speed = 7
 
+#score variable
+player_score = 0
+opponent_score = 0
+
+font = pygame.font.Font(None, 36)
+
 while True:
      #Handling input
      for event in pygame.event.get():
@@ -82,7 +96,7 @@ while True:
      ball_animation()
      player_animation()
      opponent_ai()
-     
+    
          
      #Visuals
      screen.fill(bg_color)
@@ -91,6 +105,13 @@ while True:
      pygame.draw.ellipse(screen, light_grey, ball)
      pygame.draw.aaline(screen, light_grey, (screen_width/2,0), (screen_width/2,screen_height))
      
+     score_text = font.render('Score', True, light_grey)
+     score_text_rect = score_text.get_rect(center=(screen_width/2, 20))
+     
+     score_surface = font.render(f'{opponent_score}  {player_score}',True, light_grey)
+     score_rect = score_surface.get_rect(center=(screen_width/2, 50))
+     screen.blit(score_surface, score_rect)
+     screen.blit(score_text, score_text_rect)
     
      #updating the window
      pygame.display.flip()
