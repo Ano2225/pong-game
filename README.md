@@ -53,4 +53,4 @@ This project is open-source and available.
 
 ## Contact
 
-If you have any questions, feel free to reach out to me at [ouatt0767@gmail.com].
+If you have any questions, feel free to reach out to me at ouatt0767@gmail.com.
