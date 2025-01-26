@@ -87,6 +87,12 @@ waiting = True
 
 font = pygame.font.Font(None, 36)
 
+#countdown variable
+countdown_duration = 3
+countdown_font = pygame.font.Font(None, 100)
+start_time = pygame.time.get_ticks()
+
+
 while True:
      #Handling input
      for event in pygame.event.get():
@@ -103,7 +109,18 @@ while True:
                  player_speed -= 7
              if event.key == pygame.K_UP:
                  player_speed += 7
-                 
+     
+     current_time = pygame.time.get_ticks()
+     remaining_time = max(countdown_duration - (current_time - start_time) // 1000, 0)  
+     
+     if remaining_time > 0:
+         #countdown screen
+         screen.fill(bg_color)
+         countdown_text = countdown_font.render(str(remaining_time), True, light_grey) 
+         countdown_rect = countdown_text.get_rect(center=(screen_width/2,screen_height/2))          
+         screen.blit(countdown_text, countdown_rect)
+         pygame.display.flip()
+         continue
                  
      if not game_over:
         ball_animation()
@@ -129,8 +146,7 @@ while True:
         pygame.display.flip()
         clock.tick(60)
      
-     if game_over:
-         
+     if game_over: 
         #Game over screen
         screen.fill(bg_color)
         winner_text = font.render('Player Wins' if player_score >= MAX_SCORE else 'Opponent Wins', True, green)
@@ -163,6 +179,7 @@ while True:
                     opponent_score = 0
                     game_over = False
                     ball.center = (screen_width/2, screen_height/2)
+                    start_time = pygame.time.get_ticks()
                 elif quit_button.collidepoint(mouse_pos):
                     pygame.quit()
                     sys.exit()   
