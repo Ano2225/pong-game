@@ -1,7 +1,7 @@
 import pygame, sys, random
 
 def ball_animation():
-     global ball_speed_x, ball_speed_y
+     global ball_speed_x, ball_speed_y, score_sound, paddle_hit_sound
      ball.x += ball_speed_x
      ball.y += ball_speed_y
      
@@ -13,6 +13,7 @@ def ball_animation():
          
      if ball.colliderect(player) or ball.colliderect(opponent):
          ball_speed_x *= -1
+         paddle_hit_sound.play()
 
 def player_animation():
      player.y += player_speed
@@ -34,11 +35,14 @@ def opponent_ai():
 def ball_restart():
     global ball_speed_x, ball_speed_y, player_score, opponent_score, game_over
     
+    
     #Determine who scored 
     if ball.left <= 0:
         player_score += 1
+        score_sound.play()
     elif ball.right >= screen_width:
         opponent_score += 1
+        score_low.play()
     
     if player_score >= MAX_SCORE or opponent_score >= MAX_SCORE:
         game_over = True
@@ -50,6 +54,7 @@ def ball_restart():
              
 #General setup
 pygame.init()
+pygame.mixer.init()
 clock = pygame.time.Clock()
 
 #setting up the main window
@@ -82,7 +87,7 @@ opponent_speed = 7
 #score variable
 player_score = 0
 opponent_score = 0
-MAX_SCORE = 2
+MAX_SCORE = 5
 game_over = False
 waiting = True
 
@@ -93,6 +98,11 @@ countdown_duration = 3
 countdown_font = pygame.font.Font(None, 100)
 start_time = pygame.time.get_ticks()
 
+#add song
+paddle_hit_sound = pygame.mixer.Sound('paddle_hiit.mp3')
+score_sound = pygame.mixer.Sound('score_sound.mp3')
+score_low = pygame.mixer.Sound('score_lower.mp3')
+countdown_sound = pygame.mixer.Sound('countdown.mp3')
 
 while True:
      #Handling input
@@ -120,6 +130,8 @@ while True:
          countdown_text = countdown_font.render(str(remaining_time), True, (255,0,0)) 
          countdown_rect = countdown_text.get_rect(center=(screen_width/2,screen_height/2))          
          screen.blit(countdown_text, countdown_rect)
+         countdown_sound.play()
+
          pygame.display.flip()
          continue
                  
@@ -151,7 +163,7 @@ while True:
      if game_over: 
         #Game over screen
         screen.fill(bg_color)
-        winner_text = font.render('Player Wins' if player_score >= MAX_SCORE else 'Opponent Wins', True, green)
+        winner_text = font.render('Congratulations , you have won 🎉 !' if player_score >= MAX_SCORE else 'Computer Wins 😔', True, green)
         winner_rect = winner_text.get_rect(center=(screen_width/2, screen_height/2))
         screen.blit(winner_text, winner_rect)
         
