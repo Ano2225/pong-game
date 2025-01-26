@@ -1,5 +1,8 @@
 import pygame, sys, random
 
+def add_numbers(a, b):
+    return a + b
+
 def ball_animation():
      global ball_speed_x, ball_speed_y, score_sound, paddle_hit_sound
      ball.x += ball_speed_x
@@ -99,10 +102,10 @@ countdown_font = pygame.font.Font(None, 100)
 start_time = pygame.time.get_ticks()
 
 #add song
-paddle_hit_sound = pygame.mixer.Sound('paddle_hiit.mp3')
-score_sound = pygame.mixer.Sound('score_sound.mp3')
-score_low = pygame.mixer.Sound('score_lower.mp3')
-countdown_sound = pygame.mixer.Sound('countdown.mp3')
+paddle_hit_sound = pygame.mixer.Sound('sound/paddle_hiit.mp3')
+score_sound = pygame.mixer.Sound('sound/score_sound.mp3')
+score_low = pygame.mixer.Sound('sound/score_lower.mp3')
+countdown_sound = pygame.mixer.Sound('sound/countdown.mp3')
 
 while True:
      #Handling input
