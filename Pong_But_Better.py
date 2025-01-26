@@ -1,4 +1,5 @@
 import pygame
+import random
 
 pygame.init()
 
@@ -7,6 +8,8 @@ WIDTH, HEIGHT = 1000, 600
 wn = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Pong_But_Better')
 run = True
+direction = [0, 1]
+angle = [0, 1, 2]
 
 #colors
 BLUE = (0,0, 255)
@@ -48,15 +51,56 @@ while run:
     #ball's movement controls
     if ball_y <= 0 + radius or ball_y >= HEIGHT - radius:
         ball_vel_y *= -1
-    
     if ball_x >= WIDTH - radius:
         ball_x, ball_y = WIDTH/2 - radius, HEIGHT/2 - radius
+        dir = random.choice(direction)
+        ang = random.choice(angle)
+        if dir == 0:
+            if ang == 0:
+                ball_vel_y, ball_vel_x = -1.4, 0.7
+            if ang == 1:
+                ball_vel_y, ball_vel_x = -0.7, 0.7
+            if ang == 2:
+                ball_vel_y, ball_vel_x = -0.7, 1.4
+        
+        if dir == 1:
+            if ang == 0:
+                ball_vel_y, ball_vel_x = 1.4, 0.7
+            if ang == 1:
+                ball_vel_y, ball_vel_x = 0.7, 0.7
+            if ang == 2:
+                ball_vel_y, ball_vel_x = 0.7, 1.4        
+        
         ball_vel_x *= -1
-        ball_vel_y *= -1
+        
     if ball_x <= 0 + radius:
         ball_x, ball_y = WIDTH/2 - radius, HEIGHT/2 - radius
-        ball_vel_x, ball_vel_y = 0.7,  0.7
+        if dir == 0:
+            if ang == 0:
+                ball_vel_y, ball_vel_x = -1.4, 0.7
+            if ang == 1:
+                ball_vel_y, ball_vel_x = -0.7, 0.7
+            if ang == 2:
+                ball_vel_y, ball_vel_x = -0.7, 1.4
+        
+        if dir == 1:
+            if ang == 0:
+                ball_vel_y, ball_vel_x = 1.4, 0.7
+            if ang == 1:
+                ball_vel_y, ball_vel_x = 0.7, 0.7
+            if ang == 2:
+                ball_vel_y, ball_vel_x = 0.7, 1.4
     
+    
+     #paddle's movement controls
+    if left_paddle_y >= HEIGHT - paddle_height:
+        left_paddle_y = HEIGHT - paddle_height
+    if left_paddle_y <= 0:
+        left_paddle_y = 0
+    if right_paddle_y >= HEIGHT - paddle_height:
+        right_paddle_y = HEIGHT -  paddle_height
+    if right_paddle_y <= 0:
+        right_paddle_y = 0
     
     #paddle collisions
     #left paddle
@@ -76,15 +120,7 @@ while run:
     right_paddle_y += right_paddle_vel
     left_paddle_y += left_paddle_vel
     
-    #paddle's movement controls
-    if left_paddle_y >= HEIGHT - paddle_height:
-        left_paddle_y = HEIGHT - paddle_height
-    if left_paddle_y <= 0:
-        left_paddle_y = 0
-    if right_paddle_y >= HEIGHT - paddle_height:
-        right_paddle_y = HEIGHT -  paddle_height
-    if right_paddle_y <= 0:
-        right_paddle_y = 0
+   
         
             
     
